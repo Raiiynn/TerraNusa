@@ -9,7 +9,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>TerraNusa Admin - Dashboard</title>
+
+    @include('includes.admin.style')
 
     <!-- Custom fonts for this template-->
     <link href="{{ url('backend/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -35,7 +37,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">TerraNusa Admin <sup>2</sup></div>
             </a>
 
             <!-- Divider -->
@@ -152,11 +154,18 @@
         </ul>
         <!-- End of Sidebar -->
 
+        @include('includes.admin.sidebar')
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
             <div id="content">
+                @include('includes.admin.navbar')
+                @yield('content')
+            </div>
+            
+            @include('includes.admin.footer')
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -407,6 +416,8 @@
             </div>
         </div>
     </div>
+
+        @include('includes.admin.script')
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ url('backend/vendor/jquery/jquery.min.js') }}"></script>

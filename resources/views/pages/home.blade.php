@@ -5,8 +5,8 @@
 <main>
     <!-- Hero section -->
     <section class="py-48 bg-cover bg-center relative">
-        <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000" style="background-image: url('Gambar/tes1.jpg'); opacity: 1;" id="sliderImage1"></div>
-        <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000" style="background-image: url('Gambar/tes.jpg'); opacity: 0;" id="sliderImage2"></div>
+        <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000" style="background-image: url('frontend/images/tes1.jpg'); opacity: 1;" id="sliderImage1"></div>
+        <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000" style="background-image: url('frontend/images/tes.jpg'); opacity: 0;" id="sliderImage2"></div>
         <div class="w-[85%] max-w-[1400px] mx-auto px-8 relative z-10">
             <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 text-center">Jelajahi Keindahan Yogyakarta dengan TerraNusa</h2>
             <p class="text-white text-center mb-8 text-lg">Temukan destinasi wisata terbaik, penginapan nyaman, dan pengalaman perjalanan tak terlupakan.</p>
