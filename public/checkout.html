@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - TerraNusa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .navbar-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+            background-color: rgba(36, 91, 79, 0.95);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        .navbar-hidden {
+            transform: translateY(-100%);
+        }
+        
+        .nav-link {
+            position: relative;
+            padding: 0.25rem 0;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #C4DAD2;
+            transition: width 0.3s ease-in-out;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1100;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-10%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .container-custom {
+            width: 85%;
+            margin: 0 auto;
+            max-width: 1400px;
+            padding: 0 2rem;
+        }
+
+        .modal-divider::before,
+        .modal-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .modal-divider span {
+            padding: 0 0.5rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+    
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+    
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+    
+        .wave-divider {
+            position: relative;
+            height: 150px;
+            overflow: hidden;
+        }
+    
+        .wave-divider svg {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        header {
+            background-color: rgba(36, 91, 79, 0.95); /* Warna hijau tua dengan sedikit transparansi */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        /* Slider styles */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            padding: 0 1px;
+        }
+
+        .slider-track {
+            transform: translateX(0);
+            will-change: transform;
+        }
+
+        /* Card styles */
+        .destination-card {
+            height: 340px;
+        }
+
+        .package-card {
+            height: 280px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+        }
+
+        .card-description {
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .slider-track {
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .slider-item {
+                scroll-snap-align: start;
+            }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#16423C',
+                        secondary: '#6A9C89',
+                        tertiary: '#C4DAD2',
+                        background: '#E9EFEC'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background">
+
+    <!-- Navbar -->
+    <header id="navbar" class="text-white">
+        <div class="container-custom mx-auto py-4 flex justify-between items-center">
+            <div class="h-10">
+                <a href="index.html" class="block">
+                    <img src= "Gambar\LogoTerraNusa.png" alt="TerraNusa Logo" class="h-12 w-auto">
+                </a>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="index.html" class="nav-link hover:text-tertiary text-sm">Beranda</a></li>
+                    <li><a href="destinasi.html" class="nav-link hover:text-tertiary text-sm">Destinasi</a></li>
+                    <li><a href="paket-travel.html" class="nav-link hover:text-tertiary text-sm">Paket Travel</a></li>
+                    <li><a href="about.html" class="nav-link hover:text-tertiary text-sm">About</a></li>
+                </ul>
+            </nav>
+            <div class="flex space-x-2">
+                <button onclick="openModal('login')" class="bg-secondary/80 px-4 py-2 rounded text-sm hover:bg-secondary transition">Masuk</button>
+                <button onclick="openModal('register')" class="bg-tertiary/90 text-primary px-4 py-2 rounded text-sm hover:bg-tertiary transition">Daftar</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="py-16 bg-tertiary text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-primary mb-4">Checkout</h1>
+        <p class="text-gray-600">Selesaikan pembayaran untuk melanjutkan pemesanan Anda.</p>
+    </section>
+
+    <!-- Checkout Form Section -->
+    <section class="py-16">
+        <div class="container-custom mx-auto">
+            <!-- Order Summary -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Order Details -->
+                <div class="card bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-primary">Paket Wisata Pantai Parangtritis</h3>
+                    <p class="text-gray-600 mt-2">Tanggal Pemesanan: 20 November 2024</p>
+                    <p class="text-gray-600 mt-2">Jumlah Peserta: 4 orang</p>
+                    <p class="text-gray-600 mt-2">Total Harga: <span class="font-bold text-primary">Rp 1.200.000</span></p>
+
+                    <div class="mt-6">
+                        <h4 class="text-lg font-semibold text-primary">Detail Pembayaran</h4>
+                        <p class="text-gray-600 mt-2">Nama: John Doe</p>
+                        <p class="text-gray-600 mt-2">Alamat: Jalan Raya Yogyakarta No. 25</p>
+                        <p class="text-gray-600 mt-2">Telepon: +62 812 3456 7890</p>
+                    </div>
+                </div>
+
+                <!-- Payment Details -->
+                <div class="card bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-primary">Informasi Pembayaran</h3>
+                    <form action="#" method="POST">
+                        <div class="mb-4">
+                            <label for="payment-method" class="block text-sm font-medium text-gray-700">Metode Pembayaran</label>
+                            <select id="payment-method" name="payment-method" class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md">
+                                <option value="bank-transfer">Transfer Bank</option>
+                                <option value="credit-card">Kartu Kredit</option>
+                                <option value="gopay">Gopay</option>
+                                <option value="ovo">OVO</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="payment-amount" class="block text-sm font-medium text-gray-700">Jumlah Pembayaran</label>
+                            <input type="text" id="payment-amount" name="payment-amount" value="Rp 1.200.000" class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md" readonly>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="promo-code" class="block text-sm font-medium text-gray-700">Kode Promo (Opsional)</label>
+                            <input type="text" id="promo-code" name="promo-code" placeholder="Masukkan kode promo" class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md">
+                        </div>
+
+                        <div class="mt-4 flex justify-between items-center">
+                            <button type="submit" class="bg-secondary text-white py-2 px-6 rounded-md hover:bg-opacity-90 transition">Bayar Sekarang</button>
+                            <a href="riwayat-pemesanan.html" class="text-primary font-semibold hover:underline">Kembali ke Riwayat Pemesanan</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap justify-between">
+                <div class="w-full md:w-1/4 mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">TerraNusa</h3>
+                    <p>Jelajahi keindahan Indonesia bersama kami.</p>
+                </div>
+                <div class="w-full md:w-1/4 mb-4 md:mb-0">
+                    <h4 class="font-bold mb-2">Hubungi Kami</h4>
+                    <p>Email: info@terranusa.com</p>
+                    <p>Telepon: +62 123 4567 890</p>
+                </div>
+                <div class="w-full md:w-1/4">
+                    <h4 class="font-bold mb-2">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-tertiary">Facebook</a>
+                        <a href="#" class="hover:text-tertiary">Twitter</a>
+                        <a href="#" class="hover:text-tertiary">Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-secondary text-center">
+                <p>&copy; 2023 TerraNusa. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

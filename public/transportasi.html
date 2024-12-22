@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transportasi - TerraNusa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#16423C',
+                        secondary: '#6A9C89',
+                        tertiary: '#C4DAD2',
+                        background: '#E9EFEC',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background">
+    <header class="bg-primary text-white">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold">TerraNusa</div>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="index.html" class="hover:text-tertiary">Beranda</a></li>
+                    <li><a href="destinasi.html" class="hover:text-tertiary">Destinasi</a></li>
+                    <li><a href="paket-travel.html" class="hover:text-tertiary">Paket Travel</a></li>
+                    <li><a href="penginapan.html" class="hover:text-tertiary">Penginapan</a></li>
+                    <li><a href="transportasi.html" class="hover:text-tertiary">Transportasi</a></li>
+                </ul>
+            </nav>
+            <div class="flex space-x-2">
+                <a href="login.html" class="bg-secondary px-4 py-2 rounded">Masuk</a>
+                <a href="register.html" class="bg-tertiary text-primary px-4 py-2 rounded">Daftar</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-primary mb-8">Transportasi</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://via.placeholder.com/400x300" alt="Pesawat" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-xl font-bold mb-2">Penerbangan</h2>
+                    <p class="text-gray-600 mb-4">Perjalanan cepat dan nyaman ke berbagai destinasi di Indonesia.</p>
+                    <a href="#" class="bg-secondary text-white px-4 py-2 rounded hover:bg-secondary-dark">Cari Tiket</a>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://via.placeholder.com/400x300" alt="Kereta Api" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-xl font-bold mb-2">Kereta Api</h2>
+                    <p class="text-gray-600 mb-4">Nikmati pemandangan indah sepanjang perjalanan dengan kereta api.</p>
+                    <a href="#" class="bg-secondary text-white px-4 py-2 rounded hover:bg-secondary-dark">Cari Tiket</a>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://via.placeholder.com/400x300" alt="Kapal" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-xl font-bold mb-2">Kapal Laut</h2>
+                    <p class="text-gray-600 mb-4">Jelajahi pulau-pulau Indonesia dengan perjalanan kapal yang menyenangkan.</p>
+                    <a href="#" class="bg-secondary text-white px-4 py-2 rounded hover:bg-secondary-dark">Cari Tiket</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-primary text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap justify-between">
+                <div class="w-full md:w-1/4 mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">TerraNusa</h3>
+                    <p>Jelajahi keindahan Indonesia bersama kami.</p>
+                </div>
+                <div class="w-full md:w-1/4 mb-4 md:mb-0">
+                    <h4 class="font-bold mb-2">Hubungi Kami</h4>
+                    <p>Email: info@terranusa.com</p>
+                    <p>Telepon: +62 123 4567 890</p>
+                </div>
+                <div class="w-full md:w-1/4">
+                    <h4 class="font-bold mb-2">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-tertiary">Facebook</a>
+                        <a href="#" class="hover:text-tertiary">Twitter</a>
+                        <a href="#" class="hover:text-tertiary">Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-secondary text-center">
+                <p>&copy; 2023 TerraNusa. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+

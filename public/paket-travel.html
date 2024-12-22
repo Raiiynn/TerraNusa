@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TerraNusa - Paket Travel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#245B4F',
+                        'secondary': '#6A9C89',
+                        'tertiary': '#C4DAD2',
+                        'background': '#E9EFEC',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .container-custom {
+            width: 85%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        main {
+            padding-top: 140px !important;
+        }
+    </style>
+</head>
+<body class="bg-background">
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full transition-all duration-300 z-50">
+        <div class="container-custom mx-auto py-4 flex justify-between items-center">
+            <div class="h-10">
+                <a href="index.html" class="block">
+                    <img src="" alt="TerraNusa Logo" class="h-full cursor-pointer">
+                </a>
+            </div>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-white hover:text-tertiary transition-colors duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-tertiary after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full">Beranda</a>
+                <a href="destinasi.html" class="text-white hover:text-tertiary transition-colors duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-tertiary after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full">Destinasi</a>
+                <a href="paket-travel.html" class="text-white hover:text-tertiary transition-colors duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-tertiary after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full">Paket Travel</a>
+                <a href="about.html" class="text-white hover:text-tertiary transition-colors duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-tertiary after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full">About</a>
+            </div>
+            
+            <div class="flex space-x-2">
+                <button onclick="openModal('login')" class="bg-secondary/80 hover:bg-secondary px-4 py-2 rounded text-white transition-colors duration-300">Masuk</button>
+                <button onclick="openModal('register')" class="bg-tertiary/90 hover:bg-tertiary px-4 py-2 rounded text-primary transition-colors duration-300">Daftar</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="pt-32 pb-16 bg-primary">
+        <div class="container-custom">
+            <h1 class="text-4xl font-bold text-white text-center mb-4">Paket Travel TerraNusa</h1>
+            <p class="text-white/80 text-center max-w-2xl mx-auto">Pilih paket perjalanan yang sesuai dengan kebutuhan Anda. Kami menyediakan berbagai pilihan durasi untuk pengalaman wisata terbaik di Yogyakarta.</p>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <div class="sticky top-20 bg-white shadow-md z-40">
+        <div class="container-custom py-4">
+            <div class="flex space-x-4 overflow-x-auto no-scrollbar">
+                <button id="btn-all" 
+                        onclick="filterPackages('all')" 
+                        class="px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 bg-primary text-white">
+                    Semua Paket
+                </button>
+                <button id="btn-oneday" 
+                        onclick="filterPackages('oneday')" 
+                        class="px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300">
+                    One Day Trip
+                </button>
+                <button id="btn-2d1n" 
+                        onclick="filterPackages('2d1n')" 
+                        class="px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300">
+                    2D1N
+                </button>
+                <button id="btn-3d2n" 
+                        onclick="filterPackages('3d2n')" 
+                        class="px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300">
+                    3D2N
+                </button>
+                <button id="btn-4d3n" 
+                        onclick="filterPackages('4d3n')" 
+                        class="px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300">
+                    4D3N
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content -->
+    <main class="py-16">
+        <div class="container-custom">
+            <!-- One Day Trip Section -->
+            <section id="oneday" class="mb-16">
+                <h2 class="text-2xl font-bold text-primary mb-8">One Day Trip</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+                        <div class="relative h-[240px]">
+                            <img src="Tritis.jpg" alt="Paket Pantai" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 bg-primary text-white px-4 py-1 rounded-full text-sm">One Day</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary mb-2">Paket Pantai Selatan</h3>
+                            <p class="text-gray-600 mb-4">Pantai Parangtritis, Pantai Depok, Gumuk Pasir, dan Hutan Pinus</p>
+                            <ul class="text-sm text-gray-600 mb-4 list-disc list-inside">
+                                <li>Termasuk transportasi AC</li>
+                                <li>Makan siang seafood</li>
+                                <li>Guide lokal</li>
+                                <li>Tiket masuk objek wisata</li>
+                            </ul>
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-secondary">Rp 350.000</span>
+                                <button class="px-4 py-2 bg-secondary text-white rounded hover:bg-secondary/90 transition">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+                        <div class="relative h-[240px]">
+                            <img src="Malioboro.jpg" alt="City Tour" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 bg-primary text-white px-4 py-1 rounded-full text-sm">One Day</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary mb-2">City Tour Yogyakarta</h3>
+                            <p class="text-gray-600 mb-4">Malioboro, Keraton, Taman Sari, dan Pasar Beringharjo</p>
+                            <ul class="text-sm text-gray-600 mb-4 list-disc list-inside">
+                                <li>Termasuk transportasi AC</li>
+                                <li>Makan siang gudeg</li>
+                                <li>Guide lokal</li>
+                                <li>Tiket masuk objek wisata</li>
+                            </ul>
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-secondary">Rp 300.000</span>
+                                <button class="px-4 py-2 bg-secondary text-white rounded hover:bg-secondary/90 transition">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+                        <div class="relative h-[240px]">
+                            <img src="Merapi.jpg" alt="Merapi Tour" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 bg-primary text-white px-4 py-1 rounded-full text-sm">One Day</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary mb-2">Merapi Adventure</h3>
+                            <p class="text-gray-600 mb-4">Lava Tour Merapi, Museum Merapi, dan Bunker Kaliadem</p>
+                            <ul class="text-sm text-gray-600 mb-4 list-disc list-inside">
+                                <li>Termasuk Jeep 4x4</li>
+                                <li>Makan siang lokal</li>
+                                <li>Guide profesional</li>
+                                <li>Dokumentasi</li>
+                            </ul>
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-secondary">Rp 450.000</span>
+                                <button class="px-4 py-2 bg-secondary text-white rounded hover:bg-secondary/90 transition">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2D1N Section -->
+            <section id="2d1n" class="mb-16">
+                <h2 class="text-2xl font-bold text-primary mb-8">2 Hari 1 Malam</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+                        <div class="relative h-[240px]">
+                            <img src="Heha.jpg" alt="Paket Alam" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 bg-primary text-white px-4 py-1 rounded-full text-sm">2D1N</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary mb-2">Nature Escape</h3>
+                            <p class="text-gray-600 mb-4">Heha Sky View, Kalibiru, Pinus Pengger, dan Tebing Breksi</p>
+                            <ul class="text-sm text-gray-600 mb-4 list-disc list-inside">
+                                <li>Hotel bintang 3</li>
+                                <li>Makan 3x</li>
+                                <li>Transportasi AC</li>
+                                <li>Guide profesional</li>
+                            </ul>
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-secondary">Rp 850.000</span>
+                                <button class="px-4 py-2 bg-secondary text-white rounded hover:bg-secondary/90 transition">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- 3D2N Section -->
+            <section id="3d2n" class="mb-16">
+                <h2 class="text-2xl font-bold text-primary mb-8">3 Hari 2 Malam</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+                        <div class="relative h-[240px]">
+                            <img src="Keraton.jpg" alt="Cultural Heritage" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 bg-primary text-white px-4 py-1 rounded-full text-sm">3D2N</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary mb-2">Cultural Heritage</h3>
+                            <p class="text-gray-600 mb-4">Keraton, Tamansari, Prambanan, Ratu Boko, Museum Sonobudoyo</p>
+                            <ul class="text-sm text-gray-600 mb-4 list-disc list-inside">
+                                <li>Hotel bintang 4</li>
+                                <li>Makan 7x</li>
+                                <li>Transport AC</li>
+                                <li>Guide profesional</li>
+                                <li>Pertunjukan Ramayana Ballet</li>
+                            </ul>
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-secondary">Rp 1.750.000</span>
+                                <button class="px-4 py-2 bg-secondary text-white rounded hover:bg-secondary/90 transition">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+                        <div class="relative h-[240px]">
+                            <img src="Merapi.jpg" alt="Adventure Package" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 bg-primary text-white px-4 py-1 rounded-full text-sm">3D2N</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary mb-2">Adventure Package</h3>
+                            <p class="text-gray-600 mb-4">Merapi Trekking, Goa Pindul, Pantai Timang, Goa Jomblang</p>
+                            <ul class="text-sm text-gray-600 mb-4 list-disc list-inside">
+                                <li>Hotel bintang 3</li>
+                                <li>Makan 7x</li>
+                                <li>Peralatan safety</li>
+                                <li>Guide profesional</li>
+                                <li>Dokumentasi</li>
+                            </ul>
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-secondary">Rp 2.250.000</span>
+                                <button class="px-4 py-2 bg-secondary text-white rounded hover:bg-secondary/90 transition">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4D3N Section -->
+            <section id="4d3n" class="mb-16">
+                <h2 class="text-2xl font-bold text-primary mb-8">4 Hari 3 Malam</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+                        <div class="relative h-[240px]">
+                            <img src="Malioboro.jpg" alt="Complete Yogya" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 bg-primary text-white px-4 py-1 rounded-full text-sm">4D3N</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary mb-2">Complete Yogyakarta</h3>
+                            <p class="text-gray-600 mb-4">Explores all the best spots in Yogyakarta</p>
+                            <ul class="text-sm text-gray-600 mb-4 list-disc list-inside">
+                                <li>Hotel bintang 4</li>
+                                <li>Makan 10x</li>
+                                <li>Transport premium</li>
+                                <li>Guide profesional</li>
+                                <li>Semua tiket masuk</li>
+                                <li>Souvenir khas Jogja</li>
+                            </ul>
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-secondary">Rp 3.500.000</span>
+                                <button class="px-4 py-2 bg-secondary text-white rounded hover:bg-secondary/90 transition">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg group">
+                        <div class="relative h-[240px]">
+                            <img src="Heha.jpg" alt="Premium Experience" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 bg-primary text-white px-4 py-1 rounded-full text-sm">4D3N</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary mb-2">Premium Experience</h3>
+                            <p class="text-gray-600 mb-4">Luxury tour with exclusive experiences</p>
+                            <ul class="text-sm text-gray-600 mb-4 list-disc list-inside">
+                                <li>Hotel bintang 5</li>
+                                <li>All meals included</li>
+                                <li>Private transport</li>
+                                <li>Professional guide</li>
+                                <li>Exclusive dinner experience</li>
+                                <li>Spa treatment</li>
+                            </ul>
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-secondary">Rp 5.500.000</span>
+                                <button class="px-4 py-2 bg-secondary text-white rounded hover:bg-secondary/90 transition">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-8">
+        <div class="container-custom">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">TerraNusa</h3>
+                    <p class="text-gray-300">Jelajahi keindahan Indonesia bersama kami.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Tautan Cepat</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-300 hover:text-tertiary transition-colors">Beranda</a></li>
+                        <li><a href="destinasi.html" class="text-gray-300 hover:text-tertiary transition-colors">Destinasi</a></li>
+                        <li><a href="paket-travel.html" class="text-gray-300 hover:text-tertiary transition-colors">Paket Travel</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-tertiary transition-colors">About</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Hubungi Kami</h4>
+                    <p class="text-gray-300">Email: info@terranusa.com</p>
+                    <p class="text-gray-300">Telepon: +62 123 4567 890</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-tertiary transition-colors">Facebook</a>
+                        <a href="#" class="text-gray-300 hover:text-tertiary transition-colors">Twitter</a>
+                        <a href="#" class="text-gray-300 hover:text-tertiary transition-colors">Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-secondary/30 text-center">
+                <p class="text-gray-300">&copy; 2023 TerraNusa. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Navbar scroll behavior
+        let lastScroll = 0;
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 0) {
+                navbar.classList.add('bg-primary/95', 'backdrop-blur-md');
+            } else {
+                navbar.classList.remove('bg-primary/95', 'backdrop-blur-md');
+            }
+
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                navbar.classList.add('-translate-y-full');
+            } else {
+                navbar.classList.remove('-translate-y-full');
+            }
+
+            lastScroll = currentScroll;
+        });
+
+        // Package filtering functionality
+        function filterPackages(category) {
+            // Reset all buttons to default state
+            const buttons = document.querySelectorAll('[id^="btn-"]');
+            buttons.forEach(button => {
+                button.classList.remove('bg-primary', 'text-white');
+                button.classList.add('text-primary');
+            });
+            
+            // Set active button
+            const activeButton = document.getElementById(`btn-${category}`);
+            activeButton.classList.remove('text-primary');
+            activeButton.classList.add('bg-primary', 'text-white');
+            
+            // Filter content
+            const sections = ['oneday', '2d1n', '3d2n', '4d3n'];
+            
+            if (category === 'all') {
+                sections.forEach(section => {
+                    document.getElementById(section).style.display = 'block';
+                });
+            } else {
+                sections.forEach(section => {
+                    document.getElementById(section).style.display = 
+                        section === category ? 'block' : 'none';
+                });
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            filterPackages('all');
+        });
+    </script>
+</body>
+</html>

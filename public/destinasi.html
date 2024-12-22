@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinasi - TerraNusa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#245B4F',
+                        'secondary': '#6A9C89',
+                        'tertiary': '#C4DAD2',
+                        'background': '#E9EFEC',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .navbar-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+            background-color: rgba(36, 91, 79, 0.95);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        .navbar-hidden {
+            transform: translateY(-100%);
+        }
+        
+        .nav-link {
+            position: relative;
+            padding: 0.25rem 0;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #C4DAD2;
+            transition: width 0.3s ease-in-out;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1100;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-10%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .container-custom {
+            width: 85%;
+            margin: 0 auto;
+            max-width: 1400px;
+            padding: 0 2rem;
+        }
+
+        .modal-divider::before,
+        .modal-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .modal-divider span {
+            padding: 0 0.5rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+    
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+    
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+    
+        .wave-divider {
+            position: relative;
+            height: 150px;
+            overflow: hidden;
+        }
+    
+        .wave-divider svg {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        header {
+            background-color: rgba(36, 91, 79, 0.95); /* Warna hijau tua dengan sedikit transparansi */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        /* Slider styles */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            padding: 0 1px;
+        }
+
+        .slider-track {
+            transform: translateX(0);
+            will-change: transform;
+        }
+
+        /* Card styles */
+        .destination-card {
+            height: 340px;
+        }
+
+        .package-card {
+            height: 280px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+        }
+
+        .card-description {
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .slider-track {
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .slider-item {
+                scroll-snap-align: start;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background">
+    <!-- Navbar -->
+    <header id="navbar" class="text-white">
+        <div class="container-custom mx-auto py-4 flex justify-between items-center">
+            <div class="h-10">
+                <a href="index.html" class="block">
+                    <img src= "Gambar\LogoTerraNusa.png" alt="TerraNusa Logo" class="h-12 w-auto">
+                </a>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="index.html" class="nav-link hover:text-tertiary text-sm">Beranda</a></li>
+                    <li><a href="destinasi.html" class="nav-link hover:text-tertiary text-sm">Destinasi</a></li>
+                    <li><a href="paket-travel.html" class="nav-link hover:text-tertiary text-sm">Paket Travel</a></li>
+                    <li><a href="about.html" class="nav-link hover:text-tertiary text-sm">About</a></li>
+                </ul>
+            </nav>
+            <div class="flex space-x-2">
+                <button onclick="openModal('login')" class="bg-secondary/80 px-4 py-2 rounded text-sm hover:bg-secondary transition">Masuk</button>
+                <button onclick="openModal('register')" class="bg-tertiary/90 text-primary px-4 py-2 rounded text-sm hover:bg-tertiary transition">Daftar</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Destinasi Section -->
+    <section class="relative py-20" id="destinasi">
+        <div class="container-custom mx-auto text-center mb-12">
+            <h2 class="text-4xl font-bold text-primary mb-6">Destinasi Wisata Terpopuler</h2>
+            <p class="text-lg text-gray-600">Jelajahi keindahan Yogyakarta dan temukan pengalaman yang tak terlupakan!</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 container-custom mx-auto">
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Destinasi 6 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Prambanan.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Candi Prambanan</h3>
+                        <p class="opacity-0 group-hover:opacity-100"> Abadikan momen indah di kompleks candi yang penuh pesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 7 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Indrayanti.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Indrayanti</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Hamparan pasir putih yang bersih dan lembut.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 8 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Kalibiru.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Kalibiru</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Udara segar dan suasana asri yang menenangkan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 9 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Pinus.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pinus Pengger </h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan Kedamaian di Hutan Pinus yang Menawan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 10 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/srigethuk.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold"> Air terjun Sri Gethuk</h3>
+                        <p class="opacity-0 group-hover:opacity-100"> Nikmati Keajaiban Alam yang Menyegarkan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 11 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/sonobudoyo.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Museum Sonobudoyo</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Pelajari perjalanan sejarah peradaban Jawa yang penuh makna.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 12 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/embung.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Embung Nglanggeran</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Embung Nglanggeran, destinasi wisata alam yang menawarkan ketenangan dan keindahan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 13 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Monumen.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Monumen Jogja Kembali</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Napak Tilas Perjuangan Bangsa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 14 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 15 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Destinasi 1 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Tritis.jpg" alt="Pantai Parangtritis" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Pantai Parangtritis</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan pantai dengan pemandangan yang luar biasa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 2 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Heha.jpg" alt="Heha Forest" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Heha Forest</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan sensasi keindahan alam dengan latar belakang hutan yang memesona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 3 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Keraton.jpg" alt="Keraton Yogyakarta" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Keraton Yogyakarta</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Eksplorasi sejarah dan budaya Yogyakarta di Keraton yang megah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 4 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Malioboro.jpg" alt="Malioboro" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Malioboro</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Rasakan keajaiban suasana jalanan Yogyakarta yang penuh budaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinasi 5 -->
+            <div class="fade-in-up bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="relative">
+                    <img src="Gambar/Merapi.jpg" alt="Gunung Merapi" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <h3 class="text-xl font-bold">Gunung Merapi</h3>
+                        <p class="opacity-0 group-hover:opacity-100">Nikmati keindahan matahari terbit di Gunung Merapi yang terkenal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap justify-between">
+                <div class="w-full md:w-1/4 mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">TerraNusa</h3>
+                    <p>Jelajahi keindahan Indonesia bersama kami.</p>
+                </div>
+                <div class="w-full md:w-1/4 mb-4 md:mb-0">
+                    <h4 class="font-bold mb-2">Hubungi Kami</h4>
+                    <p>Email: info@terranusa.com</p>
+                    <p>Telepon: +62 123 4567 890</p>
+                </div>
+                <div class="w-full md:w-1/4">
+                    <h4 class="font-bold mb-2">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-tertiary">Facebook</a>
+                        <a href="#" class="hover:text-tertiary">Twitter</a>
+                        <a href="#" class="hover:text-tertiary">Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-secondary text-center">
+                <p>&copy; 2023 TerraNusa. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const elements = document.querySelectorAll('.fade-in-up');
+            function checkVisibility() {
+                elements.forEach(element => {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top <= window.innerHeight * 0.8) {
+                        element.classList.add('visible');
+                    }
+                });
+            }
+            window.addEventListener('load', checkVisibility);
+            window.addEventListener('scroll', checkVisibility);
+        });
+    </script>
+</body>
+
+</html>
