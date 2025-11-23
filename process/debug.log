@@ -1,0 +1,121 @@
+Array
+(
+    [package_id] => 1
+    [package_name] => Paket Pantai Selatan
+    [base_price] => 350000
+    [customer_name] => qwe
+    [customer_phone] => 0891277272
+    [tourDate] => 2025-01-02
+    [participantCount] => 1
+    [total_amount] => 350000
+)
+Array
+(
+    [package_id] => 2
+    [package_name] => Paket Pantai Selatan
+    [base_price] => 300000
+    [customer_name] => saki
+    [customer_phone] => 0891277272
+    [tourDate] => 2025-01-01
+    [participantCount] => 1
+    [total_amount] => 300000
+)
+Array
+(
+    [package_id] => 1
+    [package_name] => Paket Pantai Selatan
+    [base_price] => 350000
+    [customer_name] => asdsa
+    [customer_phone] => 0891277272
+    [tourDate] => 2025-01-02
+    [participantCount] => 2
+    [total_amount] => 700000
+)
+Array
+(
+    [package_id] => 1
+    [package_name] => Paket Pantai Selatan
+    [base_price] => 350000
+    [customer_name] => qw
+    [customer_phone] => 0891277272
+    [tourDate] => 2025-01-16
+    [participantCount] => 1
+    [total_amount] => 350000
+)
+Array
+(
+    [package_id] => 1
+    [package_name] => Paket Pantai Selatan
+    [base_price] => 350000
+    [customer_name] => dede
+    [customer_phone] => 0891277272
+    [tourDate] => 2025-01-10
+    [participantCount] => 1
+    [total_amount] => 350000
+)
+Array
+(
+    [package_id] => 1
+    [package_name] => Paket Pantai Selatan
+    [base_price] => 350000
+    [customer_name] => dede
+    [customer_phone] => 0891277272
+    [tourDate] => 2025-01-16
+    [participantCount] => 1
+    [total_amount] => 350000
+)
+Array
+(
+    [package_id] => 1
+    [package_name] => Paket Pantai Selatan
+    [base_price] => 350000
+    [customer_name] => asdsa
+    [customer_phone] => 0891277272
+    [tourDate] => 2025-01-03
+    [participantCount] => 1
+    [total_amount] => 350000
+)
+Array
+(
+    [package_id] => 1
+    [package_name] => Paket Pantai Selatan
+    [base_price] => 350000
+    [customer_name] => tere
+    [customer_phone] => 0891277272
+    [tourDate] => 2025-01-16
+    [participantCount] => 1
+    [total_amount] => 350000
+)
+Array
+(
+    [package_id] => 2
+    [package_name] => Paket Pantai Selatan
+    [base_price] => 300000
+    [customer_name] => tere
+    [customer_phone] => 0891277272
+    [tourDate] => 2025-01-16
+    [participantCount] => 2
+    [total_amount] => 600000
+)
+Array
+(
+    [package_id] => 3
+    [package_name] => Paket Pantai Selatan
+    [base_price] => 450000
+    [customer_name] => tere
+    [customer_phone] => 0891277272
+    [tourDate] => 2025-01-22
+    [participantCount] => 2
+    [total_amount] => 900000
+)
+Array
+(
+    [package_id] => 4
+    [package_name] => Paket Nature Escape
+    [base_price] => 850000
+    [customer_name] => cece
+    [customer_phone] => 0891277272
+    [tourDate] => 2025-01-15
+    [participantCount] => 1
+    [total_amount] => 850000
+)

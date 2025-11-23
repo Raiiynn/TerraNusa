@@ -1,0 +1,27 @@
+GET http://localhost:8080/users
+
+###
+GET http://localhost:8080/users/1
+
+###
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+    "name": "Ahmad",
+    "email": "Ahmad@gmail.com",
+    "password": "Ahmad123"
+}
+
+###
+PATCH http://localhost:8080/users/1
+Content-Type: application/json
+
+{
+    "name": "Dzakki",
+    "email": "Dzakki@gmail.com",
+    "password": "Dzakki123"
+}
+
+###
+DELETE http://localhost:8080/users/2
