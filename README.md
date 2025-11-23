@@ -159,11 +159,3 @@ Gunakan `test_connection.php` (jika tersedia) untuk memeriksa konfigurasi DB dan
 Jika butuh bantuan lebih lanjut (penyetingan Docker, debugging error, atau penambahan README), hubungi pemilik repo.
 
 ---
-
-## Lisensi
-
-Tambahkan file `LICENSE` sesuai kebutuhan (MIT/Apache/BSD) — saat ini repo tidak memiliki rilis atau lisensi yang tertera.
-
----
-
-*README ini disusun untuk membantu developer atau operator memahami dan menjalankan aplikasi TerraNusa. Jika ada bagian yang ingin kamu ubah atau tambahkan (misalnya instruksi deploy ke shared-hosting, setup Let's Encrypt, dsb.), beri tahu saya dan saya akan perbarui README.*
